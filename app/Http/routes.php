@@ -12,3 +12,7 @@
 */
 
 Route::get('toppings', 'ToppingsController@index');
+
+Route::model('pizzas', 'App\Pizza');
+Route::resource('pizzas', 'PizzasController',
+                ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
