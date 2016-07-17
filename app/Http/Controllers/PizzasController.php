@@ -30,6 +30,7 @@ class PizzasController extends Controller
 
 	public function show(Pizza $pizza)
 	{
+        $pizza->load('toppings')->load('pizzaStatus');
 		return $pizza;
 	}
 
