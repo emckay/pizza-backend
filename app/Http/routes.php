@@ -10,9 +10,11 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use Illuminate\Routing\Router;
 
-Route::get('toppings', 'ToppingsController@index');
-
-Route::model('pizzas', 'App\Pizza');
-Route::resource('pizzas', 'PizzasController',
-                ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+Route::group(['middleware' => 'cors'], function(Router $router)
+{
+    $router->get('toppings', 'ToppingsController@index');
+    $router->model('pizzas', 'App\Pizza');
+    $router->resource('pizzas', 'PizzasController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+});
