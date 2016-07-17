@@ -23,6 +23,8 @@ class PizzasController extends Controller
 
         $pizza->save();
 
+        $this->syncToppingsIfPresent($pizza, $request);
+
 		return $pizza;
 	}
 
@@ -33,7 +35,12 @@ class PizzasController extends Controller
 
 	public function update(Request $request, Pizza $pizza)
 	{
-        $pizza->update($request->all());
+        if ($request->input('pizza') != NULL)
+        {
+            $pizza->update($request->input('pizza'));
+        }
+
+        $this->syncToppingsIfPresent($pizza, $request);
 
 		return $pizza;
 	}
@@ -46,4 +53,12 @@ class PizzasController extends Controller
             'success' => 1
         ];
 	}
+
+    private function syncToppingsIfPresent($pizza, $request)
+    {
+        if ($request->input('toppings') != NULL)
+        {
+            $pizza->toppings()->sync($request->input('toppings'));
+        }
+    }
 }
