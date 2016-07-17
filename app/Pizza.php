@@ -6,10 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pizza extends Model
 {
-    // TODO: Change this to default status rather than 0
-    protected $attributes = [
-        'pizza_status_id' => 0,
-    ];
-
     protected $fillable = ['name'];
+
+    public function pizzaStatus()
+    {
+        return $this->belongsTo(PizzaStatus::class);
+    }
+
+    public function setPizzaStatus($status = NULL)
+    {
+        if($status == NULL)
+        {
+            $status = PizzaStatus::firstStatus();
+        }
+
+        $this->pizzaStatus()->associate($status);
+    }
 }
