@@ -24,7 +24,7 @@ class PizzasController extends Controller
 
         $pizza->save();
 
-        $this->syncToppingsIfPresent($pizza, $request);
+        $this->syncToppings($pizza, $request);
 
 		return $pizza->load('toppings', 'pizzaStatus');
 	}
@@ -41,7 +41,7 @@ class PizzasController extends Controller
             $pizza->update($request->input('pizza'));
         }
 
-        $this->syncToppingsIfPresent($pizza, $request);
+        $this->syncToppings($pizza, $request);
 
 		return $pizza->load('toppings', 'pizzaStatus');
 	}
@@ -64,11 +64,15 @@ class PizzasController extends Controller
         return $pizza->load('toppings', 'pizzaStatus');
     }
 
-    private function syncToppingsIfPresent($pizza, $request)
+    private function syncToppings($pizza, $request)
     {
-        if ($request->input('toppings') != NULL)
+        $toppings = $request->input('toppings');
+
+        if ($toppings == NULL)
         {
-            $pizza->toppings()->sync($request->input('toppings'));
+            $toppings = [];
         }
+
+        $pizza->toppings()->sync($toppings);
     }
 }
