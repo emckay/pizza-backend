@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Pizza;
+use App\PizzaStatus;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -31,6 +32,7 @@ class PizzasController extends Controller
 	public function show(Pizza $pizza)
 	{
         $pizza->load('toppings')->load('pizzaStatus');
+
 		return $pizza;
 	}
 
@@ -54,6 +56,15 @@ class PizzasController extends Controller
             'success' => 1
         ];
 	}
+
+    public function advanceStatus(Pizza $pizza)
+    {
+        $status = $pizza->pizzaStatus;
+        $pizza->pizzaStatus()->associate($status->nextStatus());
+        $pizza->save();
+
+        return $pizza;
+    }
 
     private function syncToppingsIfPresent($pizza, $request)
     {

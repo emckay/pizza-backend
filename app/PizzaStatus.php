@@ -15,4 +15,13 @@ class PizzaStatus extends Model
     {
         return PizzaStatus::where('order', 0)->first();
     }
+
+    public function nextStatus()
+    {
+        $nextStatus = PizzaStatus::where('order', $this->attributes['order'] + 1)->first();
+        if ($nextStatus != NULL) {
+            return $nextStatus;
+        }
+        return $this;
+    }
 }

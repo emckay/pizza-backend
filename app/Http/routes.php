@@ -17,4 +17,5 @@ Route::group(['middleware' => 'cors'], function(Router $router)
     $router->get('toppings', 'ToppingsController@index');
     $router->model('pizzas', 'App\Pizza');
     $router->resource('pizzas', 'PizzasController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+    $router->patch('pizzas/{pizzas}/advanceStatus', 'PizzasController@advanceStatus');
 });
