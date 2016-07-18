@@ -12,7 +12,7 @@ class PizzasController extends Controller
 {
     public function index()
 	{
-		$pizzas = Pizza::with('Toppings', 'PizzaStatus')->get();
+		$pizzas = Pizza::with('Toppings', 'PizzaStatus')->orderBy('created_at')->get();
 
 		return $pizzas;
 	}
