@@ -26,14 +26,12 @@ class PizzasController extends Controller
 
         $this->syncToppingsIfPresent($pizza, $request);
 
-		return $pizza;
+		return $pizza->load('toppings', 'pizzaStatus');
 	}
 
 	public function show(Pizza $pizza)
 	{
-        $pizza->load('toppings')->load('pizzaStatus');
-
-		return $pizza;
+		return $pizza->load('toppings', 'pizzaStatus');
 	}
 
 	public function update(Request $request, Pizza $pizza)
@@ -45,7 +43,7 @@ class PizzasController extends Controller
 
         $this->syncToppingsIfPresent($pizza, $request);
 
-		return $pizza;
+		return $pizza->load('toppings', 'pizzaStatus');
 	}
 
 	public function destroy(Pizza $pizza)
@@ -63,7 +61,7 @@ class PizzasController extends Controller
         $pizza->pizzaStatus()->associate($status->nextStatus());
         $pizza->save();
 
-        return $pizza;
+        return $pizza->load('toppings', 'pizzaStatus');
     }
 
     private function syncToppingsIfPresent($pizza, $request)
